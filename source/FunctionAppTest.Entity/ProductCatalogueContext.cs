@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FunctionAppTest.Data;
 
@@ -8,7 +9,6 @@ public partial class ProductCatalogueContext : DbContext
 {
     public ProductCatalogueContext()
     {
-        
     }
     public ProductCatalogueContext(DbContextOptions<ProductCatalogueContext> options)
         : base(options)
@@ -20,8 +20,7 @@ public partial class ProductCatalogueContext : DbContext
     public virtual DbSet<ProductItem> ProductItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=Options:ConnectionStrings");
-       
+    => optionsBuilder.UseSqlServer("Name=Options:ConnectionStrings");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,7 +43,6 @@ public partial class ProductCatalogueContext : DbContext
 
             entity.ToTable("ProductItem");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.DeletedDate).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(100);

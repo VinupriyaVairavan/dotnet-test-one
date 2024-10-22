@@ -1,5 +1,5 @@
 CREATE TABLE ProductItem (
-    [Id] INT PRIMARY KEY,
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY (1,1),
     [ProductId] INT,
     [Name] NVARCHAR(50),
     [Description] NVARCHAR(100),

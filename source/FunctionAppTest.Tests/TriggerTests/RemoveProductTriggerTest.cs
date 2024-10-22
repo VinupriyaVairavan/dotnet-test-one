@@ -4,13 +4,15 @@ public class RemoveProductTriggerTest
 {
     private readonly Mock<ILogger<ProductTrigger>> _loggerMock;
     private readonly Mock<IProductService> _productServiceMock;
+    private readonly Mock<IProductItemService> _productItemServiceMock;
     private readonly ProductTrigger _sut;
 
     public RemoveProductTriggerTest()
     {
         _loggerMock = new Mock<ILogger<ProductTrigger>>();
         _productServiceMock = new Mock<IProductService>();
-        _sut = new ProductTrigger(_loggerMock.Object, _productServiceMock.Object);
+        _productItemServiceMock = new Mock<IProductItemService>();
+        _sut = new ProductTrigger(_loggerMock.Object, _productServiceMock.Object, _productItemServiceMock.Object);
     }
 
     [Fact]

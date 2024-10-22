@@ -11,8 +11,15 @@ public class ProductProfile : Profile
     {
         CreateMap<CreateProductRequest, Product>();
         CreateMap<UpdateProductRequest, Product>();
+        
+        CreateMap<CreateProductItemRequest, ProductItem>();
+        CreateMap<UpdateProductItemRequest, ProductItem>();
+        
         CreateMap<Product, CreateProductResponse>();
         CreateMap<Product, GetProductResponse>();
         CreateMap<Product, UpdateProductResponse>();
+        
+        CreateMap<ProductItem, CreateProductItemResponse>();
+        CreateMap<ProductItem, GetProductItemResponse>();
     }
 }

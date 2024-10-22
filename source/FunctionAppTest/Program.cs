@@ -5,6 +5,7 @@ using FunctionAppTest.ExceptionHandler;
 using FunctionAppTest.Data;
 using FunctionAppTest.Options;
 using FunctionAppTest.Profiles;
+using FunctionAppTest.Repository;
 using FunctionAppTest.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,10 @@ var host = new HostBuilder()
     {
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<IProductItemRepository, ProductItemRepository>();
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IProductItemService, ProductItemService>();
         services.AddAutoMapper(typeof(ProductProfile).Assembly);
         services.AddDbContext<ProductCatalogueContext>(
             opt =>
