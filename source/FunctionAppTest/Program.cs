@@ -1,6 +1,7 @@
 using System.Reflection;
 using Azure.Identity;
 using Boxed.AspNetCore;
+using FunctionAppTest.ExceptionHandler;
 using FunctionAppTest.Data;
 using FunctionAppTest.Options;
 using FunctionAppTest.Profiles;
@@ -18,7 +19,7 @@ var host = new HostBuilder()
         var config = builder
             .SetBasePath(context.HostingEnvironment.ContentRootPath)
             .AddJsonFile("settings.json", true, true)
-            .AddJsonFile("template.local.settings.json", true, false)
+            .AddJsonFile("local.settings.json", true, false)
             .AddEnvironmentVariables()
             .AddCommandLine(Environment.GetCommandLineArgs())
             .Build();
@@ -43,14 +44,21 @@ var host = new HostBuilder()
         services.AddScoped<IProductService, ProductService>();
         services.AddAutoMapper(typeof(ProductProfile).Assembly);
         services.AddDbContext<ProductCatalogueContext>(
-            opt => 
+            opt =>
                 SqlServerDbContextOptionsExtensions
                     .UseSqlServer(opt, "Name=Options:ConnectionStrings"));
         services
             .ConfigureAndValidateSingleton<ConnectionStringOptions>(
                 context.Configuration.GetSection(nameof(ApplicationOptions.Options))
-                );
+            );
     })
+    // .ConfigureFunctionsWorkerDefaults((context,builder) => {
+    //     if (!context.HostingEnvironment.IsDevelopment() &&
+    //         !string.IsNullOrEmpty(context.HostingEnvironment.ApplicationName))
+    //     {
+    //         builder.UseMiddleware<ExceptionHandlingMiddleware>();
+    //     }
+    // })
     .Build();
 
 host.Run();

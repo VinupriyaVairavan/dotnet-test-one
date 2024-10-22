@@ -1,0 +1,51 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  functionapptest:
+    container_name: functionapptest
+    image: functionapptest
+    build:
+      context: .
+      dockerfile: source/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - "7500:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Options__ConnectionStrings=Server=catalogue;Database=ProductCatalogueDB;User Id=sa;Password=Str0ngP@ssw0rd;TrustServerCertificate=true;
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ./secrets.json:/run/secrets/secrets.json:ro
+    depends_on:
+      - catalogue
+      - azurite
+    networks:
+      - default
+      
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000"
+
+  catalogue:
+    container_name: catalogue
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      MSSQL_SA_PASSWORD: 'Str0ngP@ssw0rd'
+      ACCEPT_EULA: 'Y'
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - default
+
+volumes:
+  sqlserver_data:
+
+networks:
+  default:
+    name: nat
+    driver: bridge
+  

@@ -1,0 +1,10 @@
+global using Xunit;
+global using FunctionAppTest.Models.Request;
+global using FunctionAppTest.Models.Response;
+global using FunctionAppTest.Services;
+global using FunctionAppTest.Triggers;
+global using Microsoft.Extensions.Logging;
+global using Moq;
+global using System.Net;
+global using FunctionAppTest.Tests.Mocks;
+global using JsonSerializer = System.Text.Json.JsonSerializer;

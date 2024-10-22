@@ -3,6 +3,11 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "Options:ConnectionStrings" : "connection string"
+    "Options:ConnectionStrings" : "connection string",
+    "Options:IsTest": false
+  },
+  "Host": {
+    "LocalHttpPort": 7249,
+    "CORS": "*"
   }
 }
